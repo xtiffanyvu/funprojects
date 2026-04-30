@@ -2,35 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <style>body { display: none; }</style>
-  <script>
-    (function() {
-      var pwd = sessionStorage.getItem("gh_auth");
-      if (pwd !== "nishiyama") {
-        pwd = prompt("Enter password to view this page:");
-        if (pwd !== "nishiyama") {
-          document.addEventListener("DOMContentLoaded", function() {
-            document.body.style.display = "flex";
-            document.body.style.alignItems = "center";
-            document.body.style.justifyContent = "center";
-            document.body.style.height = "100vh";
-            document.body.style.background = "#1c0800";
-            document.body.style.color = "#fde8c8";
-            document.body.style.fontFamily = "sans-serif";
-            document.body.style.letterSpacing = "0.1em";
-            document.body.innerHTML = "<p>Access denied.</p>";
-          });
-          return;
-        }
-        sessionStorage.setItem("gh_auth", pwd);
-      }
-      document.addEventListener("DOMContentLoaded", function() {
-        document.body.style.display = "";
-      });
-    })();
-  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tiffany & Miku: Girls' Golden Hour</title>
+  <title>Friday Evening — South Bay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
@@ -517,6 +490,47 @@
   </style>
 </head>
 <body>
+<div id="pw-gate" style="
+  position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(180deg,#1c0800 0%,#3d1200 40%,#6b2008 70%,#1c0800 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;
+  font-family:'DM Sans',sans-serif;
+">
+  <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#fff6ed;letter-spacing:0.05em;">
+    Girls' <em style="font-style:italic;color:#f5b942;">Golden Hour</em>
+  </p>
+  <p style="font-size:0.65rem;letter-spacing:0.35em;text-transform:uppercase;color:rgba(253,232,200,0.45);">Enter password to continue</p>
+  <input id="pw-input" type="password" placeholder="password" style="
+    background:rgba(253,232,200,0.07);border:1px solid rgba(253,232,200,0.2);
+    color:#fff6ed;padding:0.75rem 1.25rem;font-size:0.9rem;letter-spacing:0.15em;
+    border-radius:2px;outline:none;text-align:center;width:220px;font-family:'DM Sans',sans-serif;
+  "/>
+  <p id="pw-error" style="font-size:0.7rem;color:#f07030;letter-spacing:0.1em;opacity:0;transition:opacity 0.3s;">Incorrect password</p>
+  <button onclick="checkPw()" style="
+    background:rgba(245,185,66,0.15);border:1px solid rgba(245,185,66,0.35);
+    color:#f5b942;padding:0.6rem 2rem;font-size:0.65rem;letter-spacing:0.3em;
+    text-transform:uppercase;border-radius:2px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  ">Enter</button>
+</div>
+<script>
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPw();
+  });
+  function checkPw() {
+    var val = document.getElementById('pw-input').value;
+    if (val === 'nishiyama') {
+      document.getElementById('pw-gate').style.display = 'none';
+      sessionStorage.setItem('gh_auth','nishiyama');
+    } else {
+      document.getElementById('pw-error').style.opacity = '1';
+      document.getElementById('pw-input').value = '';
+    }
+  }
+  if (sessionStorage.getItem('gh_auth') === 'nishiyama') {
+    document.getElementById('pw-gate').style.display = 'none';
+  }
+</script>
+
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
