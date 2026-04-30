@@ -1,9 +1,22 @@
 <!DOCTYPE html>
+<script>
+  (function() {
+    var pwd = sessionStorage.getItem("gh_auth");
+    if (pwd !== "nishiyama") {
+      pwd = prompt("Enter password to view this page:");
+      if (pwd !== "nishiyama") {
+        document.documentElement.innerHTML = "<div style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#1c0800;color:#fde8c8;font-size:1rem;letter-spacing:0.1em;\">Access denied.</div>";
+        return;
+      }
+      sessionStorage.setItem("gh_auth", pwd);
+    }
+  })();
+</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tiffany & Miku: Girls' Golden Hour</title>
+  <title>Friday Evening — South Bay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
@@ -629,7 +642,7 @@
 </div>
 
 <footer>
-  <p>This plan is extremely flexible!</p>
+  <p>The Pacific will do the rest.</p>
 </footer>
 
 <script>
