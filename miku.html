@@ -1,22 +1,36 @@
 <!DOCTYPE html>
-<script>
-  (function() {
-    var pwd = sessionStorage.getItem("gh_auth");
-    if (pwd !== "nishiyama") {
-      pwd = prompt("Enter password to view this page:");
-      if (pwd !== "nishiyama") {
-        document.documentElement.innerHTML = "<div style=\"font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#1c0800;color:#fde8c8;font-size:1rem;letter-spacing:0.1em;\">Access denied.</div>";
-        return;
-      }
-      sessionStorage.setItem("gh_auth", pwd);
-    }
-  })();
-</script>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <style>body { display: none; }</style>
+  <script>
+    (function() {
+      var pwd = sessionStorage.getItem("gh_auth");
+      if (pwd !== "nishiyama") {
+        pwd = prompt("Enter password to view this page:");
+        if (pwd !== "nishiyama") {
+          document.addEventListener("DOMContentLoaded", function() {
+            document.body.style.display = "flex";
+            document.body.style.alignItems = "center";
+            document.body.style.justifyContent = "center";
+            document.body.style.height = "100vh";
+            document.body.style.background = "#1c0800";
+            document.body.style.color = "#fde8c8";
+            document.body.style.fontFamily = "sans-serif";
+            document.body.style.letterSpacing = "0.1em";
+            document.body.innerHTML = "<p>Access denied.</p>";
+          });
+          return;
+        }
+        sessionStorage.setItem("gh_auth", pwd);
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+        document.body.style.display = "";
+      });
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tiffany & Miku: Girls' Golden Hour</title>
+  <title>Friday Evening — South Bay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
   <style>
