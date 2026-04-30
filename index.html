@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Friday Evening — South Bay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1c0800;
+      --deep: #2b1200;
+      --ocean: #7a3010;
+      --horizon: #c8622a;
+      --sunset-gold: #f5b942;
+      --sunset-coral: #f07030;
+      --sand: #fde8c8;
+      --cream: #fff6ed;
+      --mist: rgba(253,232,200,0.07);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: linear-gradient(180deg, #1c0800 0%, #3d1200 40%, #6b2008 70%, #1c0800 100%); background-attachment: fixed;
+      color: var(--sand);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--sunset-gold);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(245,185,66,0.5);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    /* Stars background */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      background: #ffd89b;
+      border-radius: 50%;
+      animation: twinkle var(--dur) ease-in-out infinite;
+      opacity: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: var(--max-op); }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .horizon-glow {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 55%;
+      background: radial-gradient(ellipse 120% 60% at 50% 100%,
+        rgba(240,100,40,0.55) 0%,
+        rgba(245,155,40,0.35) 30%,
+        rgba(180,60,20,0.15) 60%,
+        transparent 100%);
+      pointer-events: none;
+    }
+    .ocean-layer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 22%;
+      background: linear-gradient(to top, rgba(28,8,0,0.97), transparent);
+      pointer-events: none;
+    }
+
+    /* Animated horizon line */
+    .horizon-line {
+      position: absolute;
+      bottom: 28%;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right,
+        transparent 0%,
+        rgba(245,185,66,0.25) 20%,
+        rgba(245,185,66,0.75) 50%,
+        rgba(245,185,66,0.25) 80%,
+        transparent 100%);
+      animation: shimmer 4s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sunset-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.5s;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--sunset-gold);
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.5);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.9s;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.4s;
+    }
+    .scroll-cue span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.35);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(245,185,66,0.8), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      50% { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Date badge */
+    .date-badge {
+      position: absolute;
+      top: 2.5rem;
+      right: 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: rgba(240,223,192,0.4);
+      border: 1px solid rgba(240,223,192,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1s;
+    }
+
+    /* Main content */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* Stop cards */
+    .stop {
+      position: relative;
+      margin-bottom: 5rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .stop.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stop-connector {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stop-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(245,155,50,0.2);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .stop-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(232,160,74,0.3), transparent);
+    }
+    .stop-time {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sunset-gold);
+      flex-shrink: 0;
+    }
+
+    .stop-card {
+      background: linear-gradient(135deg, rgba(90,35,5,0.45) 0%, rgba(28,8,0,0.65) 100%);
+      border: 1px solid rgba(253,232,200,0.07);
+      border-radius: 2px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .stop-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,155,60,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .stop-card:hover {
+      border-color: rgba(245,185,66,0.25);
+      transform: translateY(-2px);
+    }
+
+    .stop-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .stop-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .stop-name em {
+      font-style: italic;
+      color: var(--sunset-gold);
+    }
+
+    .stop-location {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.4);
+      margin-bottom: 1.5rem;
+    }
+
+    .stop-desc {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(253,232,200,0.75);
+      margin-bottom: 1.5rem;
+    }
+
+    .stop-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(245,185,66,0.25);
+      border-radius: 2rem;
+      color: rgba(245,175,55,0.85);
+    }
+
+    /* Arrow between stops */
+    .arrow-between {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      margin: -2rem auto 3rem;
+      color: rgba(240,223,192,0.2);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .arrow-between svg {
+      opacity: 0.25;
+      animation: bounceDown 2s ease-in-out infinite;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* Checklist */
+    .checklist-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .checklist-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.35);
+      margin-bottom: 1.5rem;
+    }
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (max-width: 480px) {
+      .checklist { grid-template-columns: 1fr; }
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: rgba(253,232,200,0.04);
+      border: 1px solid rgba(253,232,200,0.07);
+      border-radius: 2px;
+      font-size: 0.82rem;
+      color: rgba(253,232,200,0.65);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .check-item:hover {
+      background: rgba(245,155,50,0.08);
+      border-color: rgba(245,155,50,0.2);
+      color: var(--sand);
+    }
+    .check-item.checked {
+      background: rgba(245,155,50,0.1);
+      border-color: rgba(245,175,55,0.3);
+      color: var(--sunset-gold);
+    }
+    .check-box {
+      width: 14px; height: 14px;
+      border: 1px solid rgba(240,223,192,0.2);
+      border-radius: 2px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 0.6rem;
+    }
+    .check-item.checked .check-box {
+      background: var(--sunset-gold);
+      border-color: var(--sunset-gold);
+      color: var(--navy);
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid rgba(253,232,200,0.07);
+    }
+    footer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: rgba(253,232,200,0.35);
+    }
+
+    /* Countdown */
+    .countdown {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      margin-bottom: 5rem;
+    }
+    .countdown.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .countdown-inner {
+      border: 1px solid rgba(253,232,200,0.07);
+      padding: 2rem;
+      text-align: center;
+      background: rgba(253,232,200,0.03);
+    }
+    .countdown-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.35);
+      margin-bottom: 1.2rem;
+    }
+    .countdown-digits {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .digit-group {
+      text-align: center;
+    }
+    .digit {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+    }
+    .digit-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(253,232,200,0.3);
+      margin-top: 0.3rem;
+    }
+    .digit-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      color: rgba(232,160,74,0.3);
+      line-height: 1;
+      align-self: flex-start;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="stars" id="stars"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="horizon-glow"></div>
+  <div class="ocean-layer"></div>
+  <div class="horizon-line"></div>
+
+  <div class="date-badge">Friday · May 15, 2026</div>
+
+  <p class="hero-eyebrow">Tiffany & Miku · South Bay</p>
+  <h1 class="hero-title">Girls'<br><em>Golden</em><br>Hour</h1>
+  <p class="hero-sub">Redondo Beach, CA</p>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- Stop 1 -->
+  <div class="stop" id="stop1">
+    <div class="stop-connector">
+      <div class="stop-number">01</div>
+      <div class="stop-line"></div>
+      <div class="stop-time">6:00 pm</div>
+    </div>
+    <div class="stop-card">
+      <span class="stop-icon">🌊</span>
+      <h2 class="stop-name">Miramar<br><em>Park</em></h2>
+      <p class="stop-location">201 Paseo de la Playa · Redondo Beach</p>
+      <p class="stop-desc">A grassy bluff park perched right above the ocean — fluffy grass, wide coastal views, and stairs down to the sand if you want to get closer to the water. Dolphins are a regular sighting. Calm, local, and just minutes from dinner.</p>
+      <div class="stop-tags">
+        <span class="tag">Open until 10pm</span>
+        <span class="tag">Bluff Views</span>
+        <span class="tag">Beach Access</span>
+        <span class="tag">Dog Friendly</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow-between">
+    <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+      <line x1="8" y1="0" x2="8" y2="20" stroke="currentColor" stroke-width="1"/>
+      <polyline points="3,15 8,22 13,15" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+    <span>~5 min drive</span>
+  </div>
+
+  <!-- Stop 2 -->
+  <div class="stop" id="stop2">
+    <div class="stop-connector">
+      <div class="stop-number">02</div>
+      <div class="stop-line"></div>
+      <div class="stop-time">7:45 pm</div>
+    </div>
+    <div class="stop-card">
+      <span class="stop-icon">🫒</span>
+      <h2 class="stop-name">The Little<br><em>Oliva</em></h2>
+      <p class="stop-location">215 Avenue I · Redondo Beach</p>
+      <p class="stop-desc">A charming Mediterranean-Italian hidden gem steps from the beach. The Taormina pasta with sausage is a standout, truffle dishes are on the menu, and the lamb kabob with garlic-forward sides never disappoints. The cocktail list is fun and the patio is lovely. Closes at 9pm — aim to be seated by 7:45.</p>
+      <div class="stop-tags">
+        <span class="tag">Mediterranean</span>
+        <span class="tag">Patio Seating</span>
+        <span class="tag">Closes 9pm</span>
+        <span class="tag">Street Parking</span>
+      </div>
+    </div>
+  </div>
+  <!-- Countdown -->
+  <div class="countdown" id="countdown">
+    <div class="countdown-inner">
+      <p class="countdown-label">Countdown to golden hour</p>
+      <div class="countdown-digits">
+        <div class="digit-group">
+          <div class="digit" id="cd-days">--</div>
+          <div class="digit-label">Days</div>
+        </div>
+        <div class="digit-sep">·</div>
+        <div class="digit-group">
+          <div class="digit" id="cd-hours">--</div>
+          <div class="digit-label">Hours</div>
+        </div>
+        <div class="digit-sep">·</div>
+        <div class="digit-group">
+          <div class="digit" id="cd-mins">--</div>
+          <div class="digit-label">Mins</div>
+        </div>
+        <div class="digit-sep">·</div>
+        <div class="digit-group">
+          <div class="digit" id="cd-secs">--</div>
+          <div class="digit-label">Secs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist-section" id="checklist">
+    <p class="section-label">What to bring</p>
+    <div class="checklist">
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Light jacket
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Sunscreen
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Good shoes for trails
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Camera / phone charged
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Dinner reservation
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked'); this.querySelector('.check-box').textContent = this.classList.contains('checked') ? '✓' : ''">
+        <div class="check-box"></div>
+        Appetite 🍽️
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>The Pacific will do the rest.</p>
+</footer>
+
+<script>
+  // Stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      --dur:${2 + Math.random()*4}s;
+      --max-op:${0.3 + Math.random()*0.5};
+      animation-delay:${Math.random()*5}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx-5}px, ${my-5}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.stop, .countdown, .checklist-section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Countdown to next Friday at 6pm
+  function nextFriday6pm() {
+    // May 16, 2025 at 6pm PT (UTC-7)
+    return new Date('2026-05-15T18:00:00-07:00');
+  }
+  function updateCountdown() {
+    const target = nextFriday6pm();
+    const diff = target - new Date();
+    if (diff <= 0) { return; }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
