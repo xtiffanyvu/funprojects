@@ -7,23 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #161A16;
-    --bg-card: #1E231E;
-    --bg-elevated: #252B25;
-    --surface: #2E352E;
-    --green: #7A9E7A;
-    --green-light: #A8C4A3;
-    --green-dim: #4E6B4E;
-    --gold: #C9A96E;
-    --gold-light: #E2CFA0;
-    --gold-dim: #8B7640;
-    --amber: #C9A96E;
-    --amber-dim: #8B7640;
-    --text: #E4E8E2;
-    --text-soft: #A3AAA0;
-    --text-faint: #6B726A;
-    --border: rgba(122,158,122,0.12);
-    --glow: rgba(122,158,122,0.06);
+    --bg: #0C1610;
+    --bg-card: #111D15;
+    --bg-elevated: #16241A;
+    --surface: #1D2E22;
+    --emerald: #3D8B5E;
+    --emerald-light: #6AB88A;
+    --emerald-dim: #2A6341;
+    --emerald-muted: #1F4A31;
+    --gold: #D4AF5A;
+    --gold-light: #E8CC85;
+    --gold-dim: #9A7B3A;
+    --amber: #D4AF5A;
+    --amber-dim: #9A7B3A;
+    --text: #E2E8E4;
+    --text-soft: #9EAAA2;
+    --text-faint: #5C6E62;
+    --border: rgba(61,139,94,0.14);
+    --glow: rgba(61,139,94,0.08);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,8 +46,8 @@
     inset: 0;
     z-index: 9999;
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(122,158,122,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 30% 20%, rgba(61,139,94,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(212,175,90,0.06) 0%, transparent 50%),
       var(--bg);
     display: flex;
     flex-direction: column;
@@ -67,7 +68,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%237A9E7A' opacity='0.08'/%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%233D8B5E' opacity='0.07'/%3E%3C/svg%3E");
     pointer-events: none;
   }
 
@@ -129,13 +130,13 @@
   .pw-input::placeholder { color: var(--text-faint); }
 
   .pw-input:focus {
-    border-color: var(--green-dim);
-    box-shadow: 0 0 0 3px rgba(122,158,122,0.1);
+    border-color: var(--emerald-dim);
+    box-shadow: 0 0 0 3px rgba(61,139,94,0.12);
   }
 
   .pw-input.error {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(201,169,110,0.15);
+    box-shadow: 0 0 0 3px rgba(212,175,90,0.15);
     animation: shake 0.4s ease;
   }
 
@@ -146,17 +147,17 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 0.72rem 1.6rem;
-    border: 1px solid var(--green-dim);
+    border: 1px solid var(--emerald-dim);
     border-radius: 8px;
-    background: var(--green-dim);
+    background: var(--emerald-dim);
     color: var(--text);
     cursor: pointer;
     transition: all 0.25s ease;
   }
 
   .pw-btn:hover {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--emerald);
+    border-color: var(--emerald);
   }
 
   .pw-error {
@@ -194,8 +195,8 @@
     padding: 3rem 2rem;
     position: relative;
     background:
-      radial-gradient(ellipse at 25% 30%, rgba(122,158,122,0.07) 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 70%, rgba(201,169,110,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 25% 30%, rgba(61,139,94,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 70%, rgba(212,175,90,0.05) 0%, transparent 50%),
       var(--bg);
   }
 
@@ -203,7 +204,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%237A9E7A' opacity='0.06'/%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%233D8B5E' opacity='0.05'/%3E%3C/svg%3E");
     pointer-events: none;
   }
 
@@ -232,7 +233,7 @@
 
   .hero-title em {
     font-style: italic;
-    color: var(--green-light);
+    color: var(--emerald-light);
   }
 
   .hero-sub {
@@ -286,7 +287,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: var(--green);
+    color: var(--emerald);
     margin-bottom: 3rem;
     text-align: center;
   }
@@ -319,14 +320,14 @@
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: var(--green-dim);
+    background: var(--emerald-dim);
     border: 2px solid var(--bg);
     box-shadow: 0 0 0 1px var(--border);
   }
 
   .stop.highlight .stop-dot {
     background: var(--gold);
-    box-shadow: 0 0 0 1px rgba(201,169,110,0.3), 0 0 12px rgba(201,169,110,0.15);
+    box-shadow: 0 0 0 1px rgba(212,175,90,0.3), 0 0 12px rgba(212,175,90,0.15);
     width: 13px;
     height: 13px;
     left: -7px;
@@ -348,7 +349,7 @@
     font-size: 0.68rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--green);
+    color: var(--emerald);
     margin-bottom: 0.25rem;
   }
 
@@ -387,15 +388,15 @@
   }
 
   .badge.star {
-    background: rgba(201,169,110,0.1);
+    background: rgba(212,175,90,0.1);
     color: var(--amber);
-    border-color: rgba(201,169,110,0.2);
+    border-color: rgba(212,175,90,0.2);
   }
 
   .badge.drive {
-    background: rgba(201,169,110,0.08);
+    background: rgba(212,175,90,0.08);
     color: var(--gold-light);
-    border-color: rgba(201,169,110,0.15);
+    border-color: rgba(212,175,90,0.15);
   }
 
   .stop-desc {
@@ -465,8 +466,8 @@
 
   .lunch-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-    border-color: rgba(122,158,122,0.2);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+    border-color: rgba(61,139,94,0.25);
     background: var(--bg-elevated);
   }
 
@@ -477,7 +478,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--green-dim), var(--gold-dim));
+    background: linear-gradient(90deg, var(--emerald-dim), var(--gold-dim));
     opacity: 0;
     transition: opacity 0.35s ease;
   }
@@ -505,7 +506,7 @@
     font-size: 0.68rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--green);
+    color: var(--emerald);
     font-weight: 500;
     margin-bottom: 0.45rem;
   }
@@ -574,8 +575,8 @@
 <div class="pw-gate" id="pwGate">
   <div class="pw-inner">
     <svg class="pw-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="14" stroke="var(--green)" stroke-width="1"/>
-      <path d="M16 8 C13 12, 10 16, 16 24 C22 16, 19 12, 16 8Z" fill="var(--green)" opacity="0.3"/>
+      <circle cx="16" cy="16" r="14" stroke="var(--emerald)" stroke-width="1"/>
+      <path d="M16 8 C13 12, 10 16, 16 24 C22 16, 19 12, 16 8Z" fill="var(--emerald)" opacity="0.3"/>
     </svg>
     <h1 class="pw-title">Robyn's <em>Birthday</em></h1>
     <p class="pw-subtitle">Enter the password to view the plan</p>
@@ -611,7 +612,7 @@
       <div class="stop-dot"></div>
       <div class="stop-icon">
         <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 20h16M8 20V10a2 2 0 012-2h8a2 2 0 012 2v10M10 14h8M11 17h2M15 17h2" stroke="var(--green-light)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M6 20h16M8 20V10a2 2 0 012-2h8a2 2 0 012 2v10M10 14h8M11 17h2M15 17h2" stroke="var(--emerald-light)" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
       </div>
       <div class="stop-time">8:30 AM</div>
@@ -630,9 +631,9 @@
       <div class="stop-dot"></div>
       <div class="stop-icon">
         <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 22V10a1 1 0 011-1h6a1 1 0 011 1v12M16 13h3a1 1 0 011 1v2a1 1 0 01-1 1h-3" stroke="var(--green-light)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10 6c0 0 1-1.5 2-1.5s2 1.5 2 1.5" stroke="var(--green-light)" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-          <path d="M11 5c0 0 0.5-1.5 1-1.5s1 1.5 1 1.5" stroke="var(--green-light)" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+          <path d="M8 22V10a1 1 0 011-1h6a1 1 0 011 1v12M16 13h3a1 1 0 011 1v2a1 1 0 01-1 1h-3" stroke="var(--emerald-light)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 6c0 0 1-1.5 2-1.5s2 1.5 2 1.5" stroke="var(--emerald-light)" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <path d="M11 5c0 0 0.5-1.5 1-1.5s1 1.5 1 1.5" stroke="var(--emerald-light)" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
         </svg>
       </div>
       <div class="stop-time">9:00 AM</div>
@@ -676,7 +677,7 @@
       <div class="stop-dot"></div>
       <div class="stop-icon">
         <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 16h16M8 16c0-4 2.7-7 6-7s6 3 6 7M7 16v1a1 1 0 001 1h12a1 1 0 001-1v-1M12 21v2M16 21v2M10 23h8" stroke="var(--green-light)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 16h16M8 16c0-4 2.7-7 6-7s6 3 6 7M7 16v1a1 1 0 001 1h12a1 1 0 001-1v-1M12 21v2M16 21v2M10 23h8" stroke="var(--emerald-light)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
       <div class="stop-time">~ 12:00 PM</div>
@@ -757,7 +758,7 @@
   <!-- ─── Minimal Footer ─── -->
   <div class="footer-minimal">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 3C10 7 4 8 4 13a8 8 0 0016 0c0-5-6-6-8-10Z" stroke="var(--green-light)" stroke-width="1" fill="var(--green)" opacity="0.2"/>
+      <path d="M12 3C10 7 4 8 4 13a8 8 0 0016 0c0-5-6-6-8-10Z" stroke="var(--emerald-light)" stroke-width="1" fill="var(--emerald)" opacity="0.2"/>
     </svg>
   </div>
 
